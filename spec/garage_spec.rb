@@ -5,6 +5,7 @@ describe Garage do
   let(:broken_bikes) {[spy(:broken_bike1), spy(:broken_bike2)]}
   let(:broken_bikes_2) {[double(:broken_bike1,:fix => "a fixed bike"),
                         double(:broken_bike2,:fix => "a fixed bike")]}
+  let(:mixed_bikes) {[double(:working_bike,:broken? => false),double(:broken_bike,:broken? => true)]}
   
   it 'receives bikes' do
     subject.receive_broken(broken_bikes)
@@ -23,6 +24,12 @@ describe Garage do
     subject.receive_broken(broken_bikes_2)
     subject.fix_bikes
     expect(subject.bikes).to eq ["a fixed bike","a fixed bike"]
+  end
+
+  it 'gets rid of working bikes when remove_working_bikes is called' do
+    subject.receive_broken(mixed_bikes)
+    subject.remove_working_bikes
+    expect(subject.bikes).to eq [mixed_bikes[1]]
   end
 
 end

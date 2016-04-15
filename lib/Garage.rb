@@ -12,8 +12,14 @@ class Garage
   end
 
   def fix_bikes
-  	@bikes.each do |bike|
-  		bike.fix
-  	end
+  	@bikes = @bikes.map do |bike|
+      bike.fix
+    end
+    @bikes
   end
+
+  def remove_working_bikes
+    @bikes.delete_if{|bike| bike.broken? == false}
+  end
+
 end

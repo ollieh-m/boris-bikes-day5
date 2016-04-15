@@ -27,4 +27,9 @@ describe Bike do
       subject.fix
       expect(subject.broken?).to eq false
    end
+
+   it 'returns bike after it fixes bike' do
+      expect(subject.fix).to eq subject
+   end
+   
 end

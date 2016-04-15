@@ -28,6 +28,13 @@ class DockingStation
     @bikes = @bikes.reject{|bike| bike.broken?}
   end
 
+  def take(bikes,van)
+    until full?
+      dock(bikes.pop)
+    end
+    van.update_stock(bikes)
+  end
+
 private
 
   def full?

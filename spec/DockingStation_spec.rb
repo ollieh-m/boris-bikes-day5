@@ -8,6 +8,7 @@ describe DockingStation do
                             :broken? => false)  }
         let(:broken_bike) { double("brokenbike",
                             :broken? => true)   }
+        let(:van) { double(:van, :update_stock => nil) }
 
     it 'should successfully release working bike' do
         subject.dock(bikedouble)
@@ -36,7 +37,7 @@ describe DockingStation do
         expect{subject.release_bike}.to raise_error 'No bikes available'
     end
 
-    it 'if no working bike is available shoudl raise an error' do
+    it 'if no working bike is available should raise an error' do
         subject.dock(broken_bike)
         expect{subject.release_bike}.to raise_error 'No working bikes available'
     end
@@ -63,6 +64,20 @@ describe DockingStation do
       subject.dock(broken_bike)
       subject.remove_broken_bikes
       expect(subject.bikes).not_to include broken_bike
+    end
+
+    it 'should take as many bikes as it can with take' do
+      station = DockingStation.new(3)
+      station.dock(bikedouble)
+      station.take([bikedouble,bikedouble,bikedouble,bikedouble],van)
+      expect(station.bikes.length).to eq 3
+    end
+
+    it 'should update the van\'s stock with the bikes it can\'t take' do
+      station = DockingStation.new(3)
+      station.dock(bikedouble)
+      expect(van).to receive(:update_stock).with([bikedouble,bikedouble])
+      station.take([bikedouble,bikedouble,bikedouble,bikedouble],van)
     end
 
 
