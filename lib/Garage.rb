@@ -8,4 +8,10 @@ class Garage
   def receive_broken(broken_bikes)
     @bikes += broken_bikes
   end
+
+  def fix_bikes
+  	@bikes.each do |bike|
+  		bike.fix
+  	end
+  end
 end
