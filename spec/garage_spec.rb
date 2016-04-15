@@ -3,6 +3,8 @@ require 'Garage'
 describe Garage do
   
   let(:broken_bikes) {[spy(:broken_bike1), spy(:broken_bike2)]}
+  let(:broken_bikes_2) {[double(:broken_bike1,:fix => "a fixed bike"),
+                        double(:broken_bike2,:fix => "a fixed bike")]}
   
   it 'receives bikes' do
     subject.receive_broken(broken_bikes)
@@ -15,6 +17,12 @@ describe Garage do
   	subject.receive_broken(broken_bikes)
   	subject.fix_bikes
   	expect(broken_bikes[0]).to have_received(:fix)
+  end
+
+  it 'updates the bikes array with the results of .fix on each bike' do
+    subject.receive_broken(broken_bikes_2)
+    subject.fix_bikes
+    expect(subject.bikes).to eq ["a fixed bike","a fixed bike"]
   end
 
 end

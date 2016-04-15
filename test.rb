@@ -18,15 +18,23 @@ puts
 p "Array of Bikes: #{bike_array}"
 
 
-#Scenario_03
-bike.report_broken
-station.dock(bike)
-puts
-p station.broken?
-puts
-p station.release_bike
+# #Scenario_03
+# bike.report_broken
+# station.dock(bike)
+# puts
+# p station.broken?
+# puts
+# p station.release_bike
 
-
+#Scenario_04
+broken_bikes = []
+bike_array.each do |bike| 
+	bike.report_broken
+	broken_bikes.push(bike)
+end
+garage.receive_broken(broken_bikes)
+garage.fix_bikes
+p garage.bikes
 
 
 #Scenario_01
