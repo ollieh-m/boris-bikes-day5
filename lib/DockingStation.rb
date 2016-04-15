@@ -46,7 +46,7 @@ private
   end
   
   def broken?
-    @bikes.reject { |bike| bike.broken? }.empty?
+    @bikes.reject{ |bike| bike.broken? }.empty?
   end
 
 end

@@ -10,18 +10,16 @@ class Van
 	end
 
 	def collect_broken(station)
-		@bikes += station.bikes.select{|bike| bike.broken?}
-    	station.remove_broken_bikes
+  		collect("broken",station)
 	end
-
+	
+	def collect_working(garage)
+  		collect("working",garage)
+  	end
+  	
   	def deliver_broken(garage)
     	garage.receive_broken(@bikes)
     	@bikes.delete_if{|bike| bike.broken? }
-  	end
-
-  	def collect_working(garage)
-  		@bikes += garage.bikes.reject{|bike| bike.broken?}
-  		garage.remove_working_bikes
   	end
 
   	def deliver_working(station)
@@ -31,6 +29,18 @@ class Van
   	def update_stock(bikes)
   		@bikes.delete_if{|bike| !bike.broken? }
   		@bikes += bikes
+  	end
+
+  	private
+
+  	def collect(type,location)
+  		if type == "broken"
+  			@bikes += location.bikes.select{|bike| bike.broken?}
+  			location.remove_broken_bikes
+  		else
+  			@bikes += location.bikes.reject{|bike| bike.broken?}
+  			location.remove_working_bikes
+  		end
   	end
 
 end
