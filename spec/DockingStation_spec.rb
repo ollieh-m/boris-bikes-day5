@@ -15,6 +15,13 @@ describe DockingStation do
         expect(subject.release_bike).to be_working
     end
 
+    it 'should remove bike when it is released' do
+        subject.dock(bikedouble)
+        subject.dock(broken_bike)
+        subject.release_bike
+        expect(subject.bikes).to eq [broken_bike]
+    end
+
     it 'should successfully dock a working bike' do
         subject.dock(bikedouble)
         expect(subject.bikes).to eq [bikedouble]
@@ -29,15 +36,15 @@ describe DockingStation do
         expect{subject.release_bike}.to raise_error 'No bikes available'
     end
 
+    it 'if no working bike is available shoudl raise an error' do
+        subject.dock(broken_bike)
+        expect{subject.release_bike}.to raise_error 'No working bikes available'
+    end
+
     it 'allows 45 bikes to be docked when 45 is the capacity' do
       docking_station = DockingStation.new(45)
       45.times{docking_station.dock(bikedouble)}
       expect(docking_station.bikes.length).to eq 45
-    end
-
-    it 'should not release a bike if the bike is broken' do
-        subject.dock(broken_bike)
-        expect(subject.release_bike).not_to eq broken_bike
     end
 
     it 'raises an error when exceding DEFAULT_CAPACITY when no custom capacity is given' do
