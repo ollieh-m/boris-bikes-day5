@@ -24,13 +24,22 @@ class DockingStation
     @bikes << bike
   end
 
-  def remove_broken_bikes
-    @bikes = @bikes.reject{|bike| bike.broken?}
+  def give_up(van)
+    van.take(@bikes.select{|bike| bike.broken? },self)
+  end
+
+  def update_stock(bikes)
+    if bikes.all?{|bike| bike.broken?}
+      @bikes.delete_if{|bike| bike.broken? }
+    else
+      @bikes.delete_if{|bike| !bike.broken? }
+    end
+     @bikes += bikes
   end
 
   def take(bikes,van)
-    until full?
-      dock(bikes.pop)
+    until full? or bikes.empty?
+      @bikes << bikes.pop
     end
     van.update_stock(bikes)
   end

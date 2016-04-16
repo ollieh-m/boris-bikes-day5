@@ -59,10 +59,18 @@ describe DockingStation do
         end
     end
 
-    context '#remove_broken_bikes' do
-        it 'should remove broken bikes' do
-            docking_station.remove_broken_bikes
-            expect(docking_station.bikes).not_to include broken_bike
+    context '#give_up' do
+        it 'should make the van take its broken bikes' do
+            docking_station.dock(broken_bike)
+            docking_station.give_up(van)
+            expect(van).to have_received(:take).with([broken_bike,broken_bike],docking_station)
+        end
+    end
+
+    context '#update_stock' do
+        it 'should empty itself of broken bikes and add the bikes in the array given to it' do
+            docking_station.update_stock([broken_bike,broken_bike])
+            expect(docking_station.bikes).to eq [bikedouble,broken_bike,broken_bike]
         end
     end
 
