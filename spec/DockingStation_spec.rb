@@ -47,8 +47,8 @@ describe DockingStation do
             expect(docking_station.bikes.length).to eq 45
         end
 
-        it 'should raise an error when exceding DEFAULT_CAPACITY when no custom capacity is given' do
-            DockingStation::DEFAULT_CAPACITY.times{ subject.dock bikedouble }
+        it 'should raise an error when exceding 20 when no custom capacity is given' do
+            20.times{ subject.dock bikedouble }
             expect{ subject.dock bikedouble }.to raise_error 'Dock already full'
         end
 
@@ -59,10 +59,10 @@ describe DockingStation do
         end
     end
 
-    context '#give_up' do
+    context '#give_up_broken' do
         it 'should make the van take its broken bikes' do
             docking_station.dock(broken_bike)
-            docking_station.give_up(van)
+            docking_station.give_up_broken(van)
             expect(van).to have_received(:take).with([broken_bike,broken_bike],docking_station)
         end
     end

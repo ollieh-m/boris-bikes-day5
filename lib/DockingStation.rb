@@ -1,14 +1,13 @@
-require_relative 'bike'
+require_relative 'BikeContainer'
+require_relative 'VanStationMix'
 
 class DockingStation
+  include BikeContainer
+  include VanStationMix
 
-  attr_reader :bikes
-
-  DEFAULT_CAPACITY = 20
-
-  def initialize(num=DEFAULT_CAPACITY)
+  def initialize(capacity=20)
     @bikes = []
-    @Capacity = num
+    @capacity = capacity
   end
 
   def release_bike
@@ -24,30 +23,10 @@ class DockingStation
     @bikes << bike
   end
 
-  def give_up(van)
-    van.take(@bikes.select{|bike| bike.broken? },self)
-  end
-
-  def update_stock(bikes)
-    if bikes.all?{|bike| bike.broken?}
-      @bikes.delete_if{|bike| bike.broken? }
-    else
-      @bikes.delete_if{|bike| !bike.broken? }
-    end
-     @bikes += bikes
-  end
-
-  def take(bikes,van)
-    until full? or bikes.empty?
-      @bikes << bikes.pop
-    end
-    van.update_stock(bikes)
-  end
-
 private
 
   def full?
-    @bikes.count >= @Capacity
+    @bikes.count >= @capacity
   end
 
   def empty?

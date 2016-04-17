@@ -37,14 +37,14 @@ describe Garage do
     end
   end
 
-  context '#give_up' do
+  context '#give_up_working' do
     let(:working_bike) {double(:working_bike,:broken? => false)}
     let(:broken_bike) {double(:broken_bike,:broken? => true)}
     let(:mixed_bikes) {[working_bike,broken_bike]}
     
     it 'should make the van take its working bikes' do
       subject.take(mixed_bikes,van)
-      subject.give_up(van)
+      subject.give_up_working(van)
       expect(van).to have_received(:take).with([working_bike],subject)
     end
   end

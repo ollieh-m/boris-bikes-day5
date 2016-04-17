@@ -37,7 +37,7 @@ describe Van do
     it 'should make the garage take broken bikes' do
       subject.take([brokenbike,workingbike],source)
       expect(garage).to receive(:take).with([brokenbike],subject)
-      subject.deliver_broken(garage)
+      subject.give_up_broken(garage)
     end
 
     it 'should empty itself of broken bikes and take bikes given to it when #update_stock is passed with broken bikes' do
@@ -52,7 +52,7 @@ describe Van do
     it 'should make the station take working bikes' do
       subject.take([brokenbike,workingbike],source)
       expect(station).to receive(:take).with([workingbike],subject)
-      subject.deliver_working(station)
+      subject.give_up_working(station)
     end
 
     it 'should empty itself of working bikes and takes bikes given to it when #update_stock is passed with working bikes' do
